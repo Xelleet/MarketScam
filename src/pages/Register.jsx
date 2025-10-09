@@ -16,6 +16,17 @@ export default function Register() {
     user_type: 'buyer',  // По умолчанию покупатель
     phone: '',
   });
+  const[buyerProfileData, setBuyerProfileData] = useState({
+    type: 'buyer',
+    address: '',
+    delivery_preferences: '',
+  })
+
+  const[sellerProfileData, setSellerProfileData] = useState({
+    type: 'seller',
+    company_name: '',
+    description: '',
+  })
   // Состояние для ошибки
   const [error, setError] = useState('');
   // Функция для навигации
@@ -29,22 +40,48 @@ export default function Register() {
     });
   };
 
+  const handleBuyerChange = (e) => {
+    setBuyerProfileData({
+      ...buyerProfileData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSellerChange = (e) => {
+    setSellerProfileData({
+      ...sellerProfileData,
+      [e.target.name]: e.target.value,
+    })
+  }
+
   // Обработчик отправки формы
   const handleSubmit = async (e) => {
     e.preventDefault();  // Отменяем перезагрузку страницы
 
     try {
-      localStorage.clear('token')
+      localStorage.remove('token')
       // Делаем запрос к API для регистрации
-      const response = await authAPI.register(formData);
-      // Получаем токен из ответа
+
+      const loginForm = {
+        username: formData.username, 
+        password: formData.password,
+      }
+      await authAPI.register(formData);
+
+      const response = await authAPI.login(loginForm);
       const token = response.data.token;
-      // Сохраняем токен
       setAuthToken(token);
-      // Перенаправляем на главную
+
+      if (formData.user_type == 'buyer'){
+        await authAPI.registerProfile(buyerProfileData, token)
+      }
+      else{
+        await authAPI.registerProfile(sellerProfileData, token)
+      }
       navigate('/');
     } catch (err) {
       setError('Ошибка регистрации');
+      console.log(err);
     }
   };
 
@@ -103,6 +140,49 @@ export default function Register() {
           onChange={handleChange}
           style={styles.input}
         />
+
+        {formData.user_type === 'buyer' &&(
+          <div>
+            <input
+              type='text'
+              name='address'
+              placeholder='Адрес'
+              value={buyerProfileData.address}
+              onChange={handleBuyerChange}
+              style={styles.input}
+            ></input>
+            <input
+              type='text'
+              name='delivery_prerefences'
+              placeholder='Предпочтения в достаке'
+              value={buyerProfileData.delivery_prerefences}
+              onChange={handleBuyerChange}
+              style={styles.input}
+            ></input>
+           </div> 
+        )}
+
+        {/*Будь у меня фронтер, я бы забубенил тут стили, но мне чота как-то не хочется */}
+        {formData.user_type === 'seller' &&(
+          <div>
+            <input
+              type='text'
+              name='companyName'
+              placeholder='Название компании'
+              value={sellerProfileData.company_name}
+              onChange={handleSellerChange}
+              style={styles.input}
+              required
+            ></input>
+            <textarea
+              type='text'
+              name='Description'
+              placeholder='Расскажите о себе :-)'
+              value={sellerProfileData.description}
+              onChange={handleSellerChange}
+            ></textarea>
+           </div>
+        )}
 
         <button type="submit" style={styles.button}>
           Зарегистрироваться

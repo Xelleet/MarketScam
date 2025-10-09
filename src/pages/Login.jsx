@@ -26,13 +26,13 @@ const Login = () => {
         setError('');
 
         try {
-            localStorage.clear('token')
+            localStorage.removeItem('token')
 
             const response = await authAPI.login(formData);
             const token = response.data.token; 
 
             setAuthToken(token);
-            navigate('/');
+            navigate('/account');
         } catch (err) {
             console.error('Login error:', err);
             setError('Неверное имя пользователя или пароль.');
