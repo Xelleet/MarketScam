@@ -47,3 +47,21 @@ def create_order(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     except Product.DoesNotExist:
         return Response({'error': "Товар не найден"}, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['PUT'])
+def update_order(request, pk):
+    try:
+        order = Order.objects.get(pk=pk)
+    except Order.DoesNotExist:
+        return Response({'error': 'Заказ не найден'}, status=404)
+
+    # Проверяем, является ли текущий пользователь продавцом заказа
+    if order.seller != request.user:
+        return Response({'error': 'Только продавец может изменить статус'}, status=403)
+
+    # Обновляем статус
+    serializer = OrderSerializer(order, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=400)
