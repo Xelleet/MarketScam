@@ -6,6 +6,9 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import PersonAccountPage from './pages/PersonalAccountPage';
 import ProductsListPage from './pages/ProductsList';
+import ProductDetailPage from './pages/ProductDetailPage';
+import OrderListPage from './pages/OrderListPage';
+import OrderDetailPage from './pages/OrderDetailPage';
 
 // Главный компонент приложения
 function App() {
@@ -23,6 +26,9 @@ function App() {
           {/* Маршрут по умолчанию (временно) */}
           <Route path="/" element={<ProductsListPage/>} />
           <Route path="/account" element={<PersonAccountPage/>}/>
+          <Route path='/product/:id/' element={<ProductDetailPage/>}/>
+          <Route path='/orders/' element={<OrderListPage/>}/>
+          <Route path='/orders/:id/' element={<OrderDetailPage/>}></Route>
         </Routes>
       </div>
     </Router>

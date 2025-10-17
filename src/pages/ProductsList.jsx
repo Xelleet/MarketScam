@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { authAPI } from "../services/api";
+import { productsAPI } from "../services/api";
 
 export default function ProductsListPage(){
     const[products, setProducts] = useState();
@@ -9,7 +10,7 @@ export default function ProductsListPage(){
     useEffect(() => {
         const fetchProducts = async() => {
             try{
-                const response = await authAPI.getProducts();
+                const response = await productsAPI.getProducts();
                 setProducts(response.data);
             }
             catch (err){

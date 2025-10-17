@@ -59,7 +59,7 @@ export default function Register() {
     e.preventDefault();  // Отменяем перезагрузку страницы
 
     try {
-      localStorage.remove('token')
+      localStorage.removeItem('token')
       // Делаем запрос к API для регистрации
 
       const loginForm = {
@@ -167,7 +167,7 @@ export default function Register() {
           <div>
             <input
               type='text'
-              name='companyName'
+              name='company_name'
               placeholder='Название компании'
               value={sellerProfileData.company_name}
               onChange={handleSellerChange}

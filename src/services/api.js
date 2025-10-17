@@ -33,6 +33,19 @@ export const authAPI = {
   updateProfile: (data) => api.put('/auth/profile/', data),
   updateBuyerProfile: (data) => api.put('/auth/profile/buyer/', data),
   updateSellerProfile: (data) => api.put('/auth/profile/seller/', data),
-  //------------------------Product stuff-------------------------------
-  getProducts: () => api.get('/products/'),
 };
+
+export const productsAPI = {
+      getProducts: () => api.get('/products/'),
+      getProduct: (id) => api.get(`products/${id}/`),
+      createProduct: (data) => api.post('/products/', data),
+      updateProduct: (id, data) => api.put(`/products/${id}`, data),
+      deleteProduct: (id) => api.delete(`/products/${id}`),
+}
+
+export const ordersAPI = {
+    getOrders: () => api.get('/orders/'),
+    getOrder: (id) => api.get(`/orders/${id}`),
+    createOrder: (data) => api.post('/orders/create/', data),
+    updateOrder: (id, data) => api.put(`/orders/${id}`, data),
+}
