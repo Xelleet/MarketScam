@@ -9,6 +9,7 @@ import ProductsListPage from './pages/ProductsList';
 import ProductDetailPage from './pages/ProductDetailPage';
 import OrderListPage from './pages/OrderListPage';
 import OrderDetailPage from './pages/OrderDetailPage';
+import CreateProductPage from './pages/CreateProductPage';
 
 // Главный компонент приложения
 function App() {
@@ -29,6 +30,7 @@ function App() {
           <Route path='/product/:id/' element={<ProductDetailPage/>}/>
           <Route path='/orders/' element={<OrderListPage/>}/>
           <Route path='/orders/:id/' element={<OrderDetailPage/>}></Route>
+          <Route path='/products/create/' element={<CreateProductPage></CreateProductPage>}></Route>
         </Routes>
       </div>
     </Router>
