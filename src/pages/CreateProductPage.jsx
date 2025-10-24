@@ -65,7 +65,7 @@ export default function CreateProductPage() {
     try {
       await productsAPI.createProduct(formDataToSend);
       alert('Товар успешно создан!');
-      navigate('/products'); // Перенаправляем на список товаров
+      navigate('/');
     } catch (err) {
       console.error(err);
       setError('Ошибка при создании товара');

@@ -37,6 +37,7 @@ export const authAPI = {
 
 export const productsAPI = {
       getProducts: () => api.get('/products/'),
+      getSellerProducts: () => api.get('/products/my_products/'),
       getProduct: (id) => api.get(`products/${id}/`),
       createProduct: (data) => api.post('/products/create/', data),
       updateProduct: (id, data) => api.put(`/products/${id}`, data),

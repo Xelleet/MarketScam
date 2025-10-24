@@ -81,21 +81,22 @@ export default function PersonAccountPage() {
       </div>
 
       {/* Отображаем профиль продавца, если пользователь - продавец */}
-      {user.user_type === 'seller' && user.seller_profile && (
+      {user.user_type === 'seller' && profileData && (
         <div style={styles.profileSection}>
           <h2>Профиль продавца</h2>
           <div style={styles.infoRow}>
-            <strong>Название компании:</strong> {user.seller_profile.company_name || 'Не указано'}
+            <strong>Название компании:</strong> {profileData.company_name || 'Не указано'}
           </div>
           <div style={styles.infoRow}>
-            <strong>Описание:</strong> {user.seller_profile.description || 'Нет описания'}
+            <strong>Описание:</strong> {profileData.description || 'Нет описания'}
           </div>
           <div style={styles.infoRow}>
-            <strong>Рейтинг:</strong> {user.seller_profile.rating || '0.00'}
+            <strong>Рейтинг:</strong> {profileData.rating || '0.00'}
           </div>
           <div style={styles.infoRow}>
-            <strong>Верифицирован:</strong> {user.seller_profile.is_verified ? 'Да' : 'Нет'}
+            <strong>Верифицирован:</strong> {profileData.is_verified ? 'Да' : 'Нет'}
           </div>
+          <button onClick={() => {navigate('/products/my_products/')}}>Мои товары</button>
         </div>
       )}
 
