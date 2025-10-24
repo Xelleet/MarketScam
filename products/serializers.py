@@ -16,4 +16,4 @@ class ProductSerializer(serializers.ModelSerializer):
             'is_active', 'created_at', 'seller', 'seller_name', # seller_name теперь включено
             'category', 'category_name' # category_name теперь включено
         ]
-        read_only_fields = ['id', 'created_at', 'seller_name', 'category_name']
+        read_only_fields = ['id', 'created_at', 'seller', 'seller_name', 'category_name']

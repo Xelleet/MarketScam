@@ -4,8 +4,13 @@ from rest_framework import generics, filters
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.response import Response
+from rest_framework import generics, status
+
+
 from .models import Product, Category
 from .serializers import ProductSerializer, CategorySerializer
+from rest_framework.decorators import api_view, permission_classes
 
 User = get_user_model()
 
@@ -14,6 +19,12 @@ class CategoryListView(generics.ListAPIView):
     serializer_class = CategorySerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
+class SellerProductsListView(generics.ListAPIView):
+    serializer_class = ProductSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Product.objects.filter(seller=self.request.user)
 
 class ProductListView(generics.ListCreateAPIView):
     queryset = Product.objects.filter(is_active=True)
@@ -53,8 +64,5 @@ class ProductCreateView(generics.CreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
-        print(self.request.user)
         user = self.request.user
-        if user.user_type != 'seller':
-            raise PermissionDenied('Только продавцы могут создавать товары')
         serializer.save(seller=user)
